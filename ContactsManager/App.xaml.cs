@@ -1,6 +1,5 @@
 ﻿using ContactsManager.Interfaces;
 using ContactsManager.Services;
-using ContactsManager.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;

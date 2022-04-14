@@ -18,10 +18,10 @@ namespace ContactsManager.ViewModels
 
         public MainWindowViewModel()
         {
+            Contacts = _dataService?.GetContacts();
             AddCommand = new RelayCommand(AddCommand_Clicked, CanAddCommandBe_Clicked);
             DeleteCommand = new RelayCommand(DeleteCommand_Clicked, CanDeleteCommandBe_Clicked);
-            SaveCommand = new RelayCommand(SaveCommand_Clicked, CanSaveCommandBe_Clicked);
-            Contacts = _dataService?.GetContacts();
+            SaveCommand = new RelayCommand(SaveCommand_Clicked, CanSaveCommandBe_Clicked);            
         }
 
         private Contact _selectedContact;
