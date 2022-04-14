@@ -21,7 +21,7 @@ namespace ContactsManager.ViewModels
             AddCommand = new RelayCommand(AddCommand_Clicked, CanAddCommandBe_Clicked);
             DeleteCommand = new RelayCommand(DeleteCommand_Clicked, CanDeleteCommandBe_Clicked);
             SaveCommand = new RelayCommand(SaveCommand_Clicked, CanSaveCommandBe_Clicked);
-            Contacts = _dataService.GetContacts();
+            Contacts = _dataService?.GetContacts();
         }
 
         private Contact _selectedContact;
@@ -54,7 +54,7 @@ namespace ContactsManager.ViewModels
 
         private void SaveCommand_Clicked(object value)
         {
-            _dataService.SaveContacts(Contacts);
+            _dataService?.SaveContacts(Contacts);
         }
 
         private bool CanSaveCommandBe_Clicked(object value)
