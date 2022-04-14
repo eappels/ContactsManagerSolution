@@ -118,6 +118,22 @@
         </ComboBox>
 
         <Button
+            Content="Add contact"
+            Grid.Column="10" Grid.Row="7"
+            Grid.ColumnSpan="4" Grid.RowSpan="1"
+            Command="{Binding AddCommand}"
+            Margin="10,5,0,5"
+        />
+
+        <Button
+            Content="Delete contact"
+            Grid.Column="10" Grid.Row="8"
+            Grid.ColumnSpan="4" Grid.RowSpan="1"
+            Command="{Binding DeleteCommand}"
+            Margin="10,5,0,5"
+        />
+
+        <Button
             Content="Save contacts"
             Grid.Column="10" Grid.Row="9"
             Grid.ColumnSpan="4" Grid.RowSpan="1"

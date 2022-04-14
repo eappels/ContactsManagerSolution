@@ -1,17 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ContactsManager.Interfaces;
+using ContactsManager.Services;
+using ContactsManager.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows;
 
 namespace ContactsManager
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
+
     public partial class App : Application
     {
+
+        public new static App Current => (App)Application.Current;
+        public IServiceProvider Services { get; }
+
+        public App()
+        {
+            Services = ConfigureServices();
+        }
+
+        private static IServiceProvider ConfigureServices()
+        {
+            var services = new ServiceCollection();
+            services.AddSingleton<IDataService, DataService>();
+            return services.BuildServiceProvider();
+        }
     }
 }
