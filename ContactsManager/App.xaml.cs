@@ -1,5 +1,6 @@
 ﻿using ContactsManager.Interfaces;
 using ContactsManager.Services;
+using ContactsManager.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
@@ -21,7 +22,9 @@ namespace ContactsManager
         private static IServiceProvider ConfigureServices()
         {
             var services = new ServiceCollection();
-            services.AddSingleton<IDataService, DataService>();
+            services.AddTransient<MainWindowViewModel>();
+            services.AddSingleton<IJSONFileDataService, JSONFileDataService >();
+            services.AddSingleton<ISQLDataService, SQLDataService>();
             return services.BuildServiceProvider();
         }
     }

@@ -10,7 +10,9 @@ namespace ContactsManager.ViewModels
     public class MainWindowViewModel : BindableBase
     {
 
-        private IDataService? _dataService = App.Current.Services.GetService<IDataService>();
+        private IJSONFileDataService? _jsondataService = App.Current.Services.GetService<IJSONFileDataService>();
+        private ISQLDataService? _sqlDataService = App.Current.Services.GetService<ISQLDataService>();
+
         public ObservableCollection<Contact>? Contacts { get; }        
         public ICommand AddCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
@@ -18,7 +20,7 @@ namespace ContactsManager.ViewModels
 
         public MainWindowViewModel()
         {
-            Contacts = _dataService?.GetContacts();
+            Contacts = _jsondataService?.GetContacts();
             AddCommand = new RelayCommand(AddCommand_Clicked, CanAddCommandBe_Clicked);
             DeleteCommand = new RelayCommand(DeleteCommand_Clicked, CanDeleteCommandBe_Clicked);
             SaveCommand = new RelayCommand(SaveCommand_Clicked, CanSaveCommandBe_Clicked);            
@@ -54,7 +56,8 @@ namespace ContactsManager.ViewModels
 
         private void SaveCommand_Clicked(object value)
         {
-            _dataService?.SaveContacts(Contacts);
+            _jsondataService?.SaveContacts(Contacts);
+            //_sqlDataService?.SaveContacts(Contacts);
         }
 
         private bool CanSaveCommandBe_Clicked(object value)

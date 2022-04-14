@@ -1,4 +1,5 @@
 ﻿using ContactsManager.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
 namespace ContactsManager
@@ -10,7 +11,7 @@ namespace ContactsManager
         {
             InitializeComponent();
 
-            DataContext = new MainWindowViewModel();
+            DataContext = App.Current.Services.GetService<MainWindowViewModel>();
         }
     }
 }

@@ -8,7 +8,7 @@ using System.IO;
 
 namespace ContactsManager.Services
 {
-    public class DataService : IDataService
+    public class JSONFileDataService  : IJSONFileDataService
     {
 
         private string _datafile = "Contacts.json";
