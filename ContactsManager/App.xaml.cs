@@ -11,11 +11,18 @@ namespace ContactsManager
     public partial class App : Application
     {
 
-        private IServiceProvider RegisterServices()
+        public new static App Current => (App)Application.Current;
+        public IServiceProvider Services { get; }
+
+        public App()
+        {
+            Services = ConfigureServices();
+        }
+
+        private static IServiceProvider ConfigureServices()
         {
             var services = new ServiceCollection();
             services.AddSingleton<IDataService, DataService>();
-            services.AddTransient<MainWindowViewModel>();            
             return services.BuildServiceProvider();
         }
     }
