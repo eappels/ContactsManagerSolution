@@ -11,7 +11,6 @@ namespace ContactsManager.ViewModels
     {
 
         private IJSONFileDataService? _jsondataService = App.Current.Services.GetService<IJSONFileDataService>();
-        private ISQLDataService? _sqlDataService = App.Current.Services.GetService<ISQLDataService>();
 
         public ObservableCollection<Contact>? Contacts { get; }        
         public ICommand AddCommand { get; set; }
@@ -57,7 +56,6 @@ namespace ContactsManager.ViewModels
         private void SaveCommand_Clicked(object value)
         {
             _jsondataService?.SaveContacts(Contacts);
-            //_sqlDataService?.SaveContacts(Contacts);
         }
 
         private bool CanSaveCommandBe_Clicked(object value)
