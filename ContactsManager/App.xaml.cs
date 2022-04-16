@@ -24,6 +24,7 @@ namespace ContactsManager
             var services = new ServiceCollection();
             services.AddTransient<MainWindowViewModel>();
             services.AddSingleton<IJSONFileDataService, JSONFileDataService >();
+            services.AddSingleton<ISQLdbService, SQLdbService >();
             return services.BuildServiceProvider();
         }
     }

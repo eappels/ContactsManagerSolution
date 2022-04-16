@@ -1,15 +1,20 @@
 ﻿using ContactsManager.Helpers;
+using ContactsManager.Interfaces;
 
 namespace ContactsManager.Models
 {
     public class Contact : BindableBase
     {
 
-        private int _id;
-
-        public Contact(int id)
+        public Contact()
         {
-            _id = id;
+        }
+
+        private int _id;
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
         }
 
         private string _firstName;
@@ -26,18 +31,18 @@ namespace ContactsManager.Models
             set => SetProperty(ref _lastName, value);
         }
 
-        private string _email;
-        public string Email
-        {
-            get => _email;
-            set => SetProperty(ref _email, value);
-        }
+        //private string _email;
+        //public string Email
+        //{
+        //    get => _email;
+        //    set => SetProperty(ref _email, value);
+        //}
 
-        private GenderType _gender;
-        public GenderType Gender
-        {
-            get => _gender;
-            set => SetProperty(ref _gender, value);
-        }
+        //private GenderType _gender;
+        //public GenderType Gender
+        //{
+        //    get => _gender;
+        //    set => SetProperty(ref _gender, value);
+        //}
     }
 }

@@ -11,15 +11,16 @@ namespace ContactsManager.ViewModels
     {
 
         private IJSONFileDataService? _jsondataService = App.Current.Services.GetService<IJSONFileDataService>();
+        private ISQLdbService _sqldbService = App.Current.Services.GetService<ISQLdbService>(); 
 
-        public ObservableCollection<Contact>? Contacts { get; }        
+        public ObservableCollection<Contact>? Contacts { get; set; }
         public ICommand AddCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         public ICommand SaveCommand { get; set; }
 
         public MainWindowViewModel()
         {
-            Contacts = _jsondataService?.GetContacts();
+            Contacts = _sqldbService.GetContacts();
             AddCommand = new RelayCommand(AddCommand_Clicked, CanAddCommandBe_Clicked);
             DeleteCommand = new RelayCommand(DeleteCommand_Clicked, CanDeleteCommandBe_Clicked);
             SaveCommand = new RelayCommand(SaveCommand_Clicked, CanSaveCommandBe_Clicked);            
@@ -55,12 +56,13 @@ namespace ContactsManager.ViewModels
 
         private void SaveCommand_Clicked(object value)
         {
-            _jsondataService?.SaveContacts(Contacts);
+            //_jsondataService?.SaveContacts(Contacts);
+            Contacts = _sqldbService?.SaveContact();
         }
 
         private bool CanSaveCommandBe_Clicked(object value)
         {
-            return true;
+            return _sqldbService.CanSaveToDB();
         }
     }
 }
