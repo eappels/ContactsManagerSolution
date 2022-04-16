@@ -8,6 +8,9 @@ using System.IO;
 
 namespace ContactsManager.Services
 {
+    /// <summary>
+    /// JSON service definition
+    /// </summary>
     public class JSONFileDataService  : IJSONFileDataService
     {
 

@@ -7,13 +7,22 @@ using System.Windows.Input;
 
 namespace ContactsManager.ViewModels
 {
+    /// <summary>
+    /// MVVM pattern used in a CRUD app
+    /// </summary>
     public class MainWindowViewModel : BindableBase
     {
 
+        /// <summary>
+        /// Service references
+        /// </summary>
         private IJSONFileDataService? _jsondataService = App.Current.Services.GetService<IJSONFileDataService>();
         private ISQLdbService _sqldbService = App.Current.Services.GetService<ISQLdbService>(); 
 
         public ObservableCollection<Contact>? Contacts { get; set; }
+        /// <summary>
+        /// Commands
+        /// </summary>
         public ICommand ReloadCommand { get; set; }
         public ICommand AddCommand { get; set; }
         public ICommand DeleteCommand { get; set; }

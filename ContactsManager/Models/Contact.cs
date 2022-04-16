@@ -3,6 +3,9 @@ using ContactsManager.Interfaces;
 
 namespace ContactsManager.Models
 {
+    /// <summary>
+    /// MVVM pattern
+    /// </summary>
     public class Contact : BindableBase
     {
 

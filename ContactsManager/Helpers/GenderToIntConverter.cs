@@ -5,6 +5,9 @@ using System.Windows.Data;
 
 namespace ContactsManager.Helpers
 {
+    /// <summary>
+    /// Converter
+    /// </summary>
     public class GenderToIntConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

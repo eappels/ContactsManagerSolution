@@ -3,6 +3,9 @@ using System.Runtime.CompilerServices;
 
 namespace ContactsManager.Helpers
 {
+    /// <summary>
+    /// INotifyPropertyChanged helper class
+    /// </summary>
     public abstract class BindableBase : INotifyPropertyChanged
     {
 

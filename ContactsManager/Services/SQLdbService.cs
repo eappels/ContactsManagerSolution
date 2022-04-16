@@ -1,16 +1,17 @@
 ﻿using ContactsManager.Interfaces;
 using ContactsManager.Models;
 using Dapper;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data.SQLite;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
 namespace ContactsManager.Services
 {
+    /// <summary>
+    /// SQLite service definition
+    /// </summary>
     public class SQLdbService : ISQLdbService
     {
 
