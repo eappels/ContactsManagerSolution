@@ -79,7 +79,6 @@ namespace ContactsManager.ViewModels
 
         private void SaveCommand_Clicked(object value)
         {
-            //_jsondataService?.SaveContacts(Contacts);
              _sqldbService?.SaveContact(Contacts[Contacts.Count-1]);
             Contacts.Clear();
             foreach (Contact contact in _sqldbService.GetContacts())

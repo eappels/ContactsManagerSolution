@@ -31,18 +31,18 @@ namespace ContactsManager.Models
             set => SetProperty(ref _lastName, value);
         }
 
-        //private string _email;
-        //public string Email
-        //{
-        //    get => _email;
-        //    set => SetProperty(ref _email, value);
-        //}
+        private string _email;
+        public string Email
+        {
+            get => _email;
+            set => SetProperty(ref _email, value);
+        }
 
-        //private GenderType _gender;
-        //public GenderType Gender
-        //{
-        //    get => _gender;
-        //    set => SetProperty(ref _gender, value);
-        //}
+        private GenderType _gender;
+        public GenderType Gender
+        {
+            get => _gender;
+            set => SetProperty(ref _gender, value);
+        }
     }
 }

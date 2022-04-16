@@ -34,7 +34,7 @@ namespace ContactsManager.Services
 
         public void SaveContact(Contact contact)
         {
-            var sql = "insert into Contact (FirstName, LastName) values ('" + contact.FirstName + "', '" + contact.LastName + "')";
+            var sql = "insert into Contact (FirstName, LastName, Email, Gender) values ('" + contact.FirstName + "', '" + contact.LastName + "', '" + contact.Email + "', '" + contact.Gender + "')";
             _connection.Open();
             _connection.Execute(sql);
             _connection.Close();
