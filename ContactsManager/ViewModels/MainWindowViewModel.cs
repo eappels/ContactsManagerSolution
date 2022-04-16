@@ -14,6 +14,7 @@ namespace ContactsManager.ViewModels
         private ISQLdbService _sqldbService = App.Current.Services.GetService<ISQLdbService>(); 
 
         public ObservableCollection<Contact>? Contacts { get; set; }
+        public ICommand ReloadCommand { get; set; }
         public ICommand AddCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         public ICommand SaveCommand { get; set; }
@@ -21,6 +22,7 @@ namespace ContactsManager.ViewModels
         public MainWindowViewModel()
         {
             Contacts = _sqldbService.GetContacts();
+            ReloadCommand = new RelayCommand(ReloadCommand_Clicked, CanReloadCommandBe_Clicked);
             AddCommand = new RelayCommand(AddCommand_Clicked, CanAddCommandBe_Clicked);
             DeleteCommand = new RelayCommand(DeleteCommand_Clicked, CanDeleteCommandBe_Clicked);
             SaveCommand = new RelayCommand(SaveCommand_Clicked, CanSaveCommandBe_Clicked);            
@@ -34,18 +36,39 @@ namespace ContactsManager.ViewModels
             set => SetProperty(ref _selectedContact, value);
         }
 
+        private void ReloadCommand_Clicked(object value)
+        {
+            Contacts.Clear();
+            foreach (Contact contact in _sqldbService.GetContacts())
+            {
+                Contacts.Add(contact);
+            }
+        }
+
+        private bool CanReloadCommandBe_Clicked(object value)
+        {
+            return _sqldbService.CanSaveToDB();
+        }
+
         private void AddCommand_Clicked(object value)
         {
-
+           SelectedContact = new Contact();
+            Contacts.Add(SelectedContact);
         }
 
         private bool CanAddCommandBe_Clicked(object value)
         {
             return true;
         }
+
         private void DeleteCommand_Clicked(object value)
         {
-
+            _sqldbService.DeleteContact(SelectedContact);
+            Contacts.Clear();
+            foreach (Contact contact in _sqldbService.GetContacts())
+            {
+                Contacts.Add(contact);
+            }
         }
 
         private bool CanDeleteCommandBe_Clicked(object value)
@@ -57,7 +80,12 @@ namespace ContactsManager.ViewModels
         private void SaveCommand_Clicked(object value)
         {
             //_jsondataService?.SaveContacts(Contacts);
-            Contacts = _sqldbService?.SaveContact();
+             _sqldbService?.SaveContact(Contacts[Contacts.Count-1]);
+            Contacts.Clear();
+            foreach (Contact contact in _sqldbService.GetContacts())
+            {
+                Contacts.Add(contact);
+            }
         }
 
         private bool CanSaveCommandBe_Clicked(object value)

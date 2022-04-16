@@ -7,7 +7,8 @@ namespace ContactsManager.Interfaces
     {
         ObservableCollection<Contact> GetContacts();
         void SaveContacts(ObservableCollection<Contact> contacts);
-        ObservableCollection<Contact> SaveContact();
+        void SaveContact(Contact contact);
+        void DeleteContact(Contact contact);
         bool CanSaveToDB();
     }
 }

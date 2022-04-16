@@ -118,6 +118,14 @@
         </ComboBox>
 
         <Button
+            Content="Reload contacts"
+            Grid.Column="10" Grid.Row="6"
+            Grid.ColumnSpan="4" Grid.RowSpan="1"
+            Command="{Binding ReloadCommand}"
+            Margin="10,5,0,5"
+        />
+        
+        <Button
             Content="Add contact"
             Grid.Column="10" Grid.Row="7"
             Grid.ColumnSpan="4" Grid.RowSpan="1"

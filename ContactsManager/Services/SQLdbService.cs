@@ -32,18 +32,25 @@ namespace ContactsManager.Services
             return new ObservableCollection<Contact>(result.ToList());
         }
 
-        public ObservableCollection<Contact> SaveContact()
+        public void SaveContact(Contact contact)
         {
-            var sql = "insert into Contact (FirstName, LastName) values ('Eddy', 'Appels')";
+            var sql = "insert into Contact (FirstName, LastName) values ('" + contact.FirstName + "', '" + contact.LastName + "')";
             _connection.Open();
             _connection.Execute(sql);
-            var result = _connection.Query<Contact>(@"SELECT * FROM Contact").ToList();
             _connection.Close();
-            return new ObservableCollection<Contact>(result.ToList());
         }
 
         public void SaveContacts(ObservableCollection<Contact> contacts)
-        {            
+        {
+            SaveContact(contacts[0]);
+        }
+
+        public void DeleteContact(Contact contact)
+        {
+            var sql = "DELETE FROM Contact WHERE Id = @Id";
+            _connection.Open();
+            _connection.Execute(sql, new { Id = contact.Id });
+            _connection.Close();
         }
 
         private static string LoadConnectionString(string id = "Default")
