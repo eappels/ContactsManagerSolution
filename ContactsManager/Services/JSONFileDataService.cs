@@ -16,7 +16,7 @@ namespace ContactsManager.Services
 
         private string _datafile = "Contacts.json";
 
-        public ObservableCollection<Contact>? GetContacts()
+        public ObservableCollection<Contact> GetContacts()
         {
             string json = File.ReadAllText(_datafile);
             return JsonConvert.DeserializeObject<ObservableCollection<Contact>>(json);

@@ -10,7 +10,7 @@ namespace ContactsManager.Helpers
     {
 
         #region INotifyPropertyChanged Members
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
             if (Equals(storage, value)) return false;
@@ -20,7 +20,7 @@ namespace ContactsManager.Helpers
         }
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(name));
         }
         #endregion INotifyPropertyChanged Members
     }

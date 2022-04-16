@@ -16,10 +16,10 @@ namespace ContactsManager.ViewModels
         /// <summary>
         /// Service references
         /// </summary>
-        private IJSONFileDataService? _jsondataService = App.Current.Services.GetService<IJSONFileDataService>();
+        private IJSONFileDataService _jsondataService = App.Current.Services.GetService<IJSONFileDataService>();
         private ISQLdbService _sqldbService = App.Current.Services.GetService<ISQLdbService>(); 
 
-        public ObservableCollection<Contact>? Contacts { get; set; }
+        public ObservableCollection<Contact> Contacts { get; set; }
         /// <summary>
         /// Commands
         /// </summary>
@@ -88,7 +88,7 @@ namespace ContactsManager.ViewModels
 
         private void SaveCommand_Clicked(object value)
         {
-             _sqldbService?.SaveContact(Contacts[Contacts.Count-1]);
+             _sqldbService.SaveContact(Contacts[Contacts.Count-1]);
             Contacts.Clear();
             foreach (Contact contact in _sqldbService.GetContacts())
             {
