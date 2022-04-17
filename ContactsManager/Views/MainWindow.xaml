@@ -42,10 +42,11 @@
             <RowDefinition />
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        
-        <views:ContactsList Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="14" Grid.RowSpan="5"/>
+
+        <views:Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="16" Grid.RowSpan="1"/>
+        <views:ContactsList Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="14" Grid.RowSpan="5" Margin="0,10,0,0"/>
         <views:CRUDInput Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="8" Grid.RowSpan="4" Margin="0,10,0,0"/>
         <views:CRUDButtons Grid.Column="10" Grid.Row="6" Grid.ColumnSpan="5" Grid.RowSpan="4" Margin="0,10,0,0"/>
-        
+                
     </Grid>
 </Window>

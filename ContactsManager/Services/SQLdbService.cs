@@ -3,9 +3,9 @@ using ContactsManager.Models;
 using Dapper;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Data;
 using System.Data.SQLite;
 using System.IO;
-using System.Linq;
 
 namespace ContactsManager.Services
 {
@@ -16,63 +16,49 @@ namespace ContactsManager.Services
     {
 
         public string _database = "Contacts.db";
-        private readonly SQLiteConnection _connection;
 
         public SQLdbService()
         {
             if (!File.Exists(_database))
                 SQLiteConnection.CreateFile(_database);
-            _connection = new SQLiteConnection("Data Source=.\\Contacts.db;Version=3;");
         }
 
         public ObservableCollection<Contact> GetContacts()
         {
-            _connection.Open();
-            var result = _connection.Query<Contact>(@"SELECT * FROM Contact").ToList();
-            _connection.Close();
-            return new ObservableCollection<Contact>(result.ToList());
+            using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
+            {
+                var output = connection.Query<Contact>("SELECT * FROM Contact", new DynamicParameters());
+                return new ObservableCollection<Contact>(output);
+            }
         }
 
         public void SaveContact(Contact contact)
         {
-            var sql = "insert into Contact (FirstName, LastName, Email, Gender) values ('" + contact.FirstName + "', '" + contact.LastName + "', '" + contact.Email + "', '" + contact.Gender + "')";
-            _connection.Open();
-            _connection.Execute(sql);
-            _connection.Close();
+            using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
+            {
+                connection.Execute("INSERT INTO Contact (FirstName, Lastname, Email, Gender) VALUES (@FirstName, @Lastname, @Email, @Gender)", contact);
+            }
         }
 
-        public void SaveContacts(ObservableCollection<Contact> contacts)
+        public void UpdateContact(Contact contact)
         {
-            SaveContact(contacts[0]);
+            using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
+            {
+                connection.Execute("UPDATE Contact (FirstName, Lastname, Email, Gender) VALUES (@FirstName, @Lastname, @Email, @Gender) WHERE Id = @Id", contact.Id);
+            }
         }
 
         public void DeleteContact(Contact contact)
         {
-            var sql = "DELETE FROM Contact WHERE Id = @Id";
-            _connection.Open();
-            _connection.Execute(sql, new { Id = contact.Id });
-            _connection.Close();
+            using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
+            {
+                connection.Execute("DELETE FROM Contact WHERE Id = @Id", new { Id = contact.Id });
+            }
         }
 
-        public void AddContact(Contact contact)
-        {
-            var sql = "insert into Contact (FirstName, LastName, Email, Gender) values ('" + contact.FirstName + "', '" + contact.LastName + "', '" + contact.Email + "', '" + contact.Gender + "')";
-            _connection.Open();
-            _connection.Execute(sql);
-            _connection.Close();
-        }
-
-        private static string LoadConnectionString(string id = "Default")
+        private string LoadConnectionString(string id = "Default")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
-        }    
-
-        public bool CanSaveToDB()
-        {
-            if (_connection.State == System.Data.ConnectionState.Closed)
-                return true;
-            else
-                return false;
         }
     }
 }

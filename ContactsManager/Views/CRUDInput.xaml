@@ -31,7 +31,7 @@
             VerticalAlignment="Center" HorizontalAlignment="Stretch"
         />
 
-        <TextBox Text="{Binding SelectedContact.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Text="{Binding SelectedContact.FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             x:Name="txt_FirstName"
             Grid.Column="1" Grid.Row="0"
             Grid.ColumnSpan="1" Grid.RowSpan="1"
@@ -45,7 +45,7 @@
             VerticalAlignment="Center" HorizontalAlignment="Stretch"
         />
 
-        <TextBox Text="{Binding SelectedContact.LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Text="{Binding SelectedContact.LastName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             x:Name="txt_LastName"
             Grid.Column="1" Grid.Row="1"
             Grid.ColumnSpan="6" Grid.RowSpan="1"
@@ -59,7 +59,7 @@
             VerticalAlignment="Center" HorizontalAlignment="Stretch"
         />
 
-        <TextBox Text="{Binding SelectedContact.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Text="{Binding SelectedContact.Email, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             x:Name="txt_Email"
             Grid.Column="1" Grid.Row="2"
             Grid.ColumnSpan="6" Grid.RowSpan="1"

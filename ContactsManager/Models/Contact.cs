@@ -1,5 +1,4 @@
 ﻿using ContactsManager.Helpers;
-using ContactsManager.Interfaces;
 
 namespace ContactsManager.Models
 {
