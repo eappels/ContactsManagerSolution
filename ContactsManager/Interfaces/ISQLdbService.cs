@@ -10,5 +10,8 @@ namespace ContactsManager.Interfaces
         void SaveContact(Contact contact);
         void DeleteContact(Contact contact);
         bool CanSaveToDB();
+
+
+        void AddContact(Contact contact);
     }
 }

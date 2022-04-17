@@ -54,6 +54,14 @@ namespace ContactsManager.Services
             _connection.Close();
         }
 
+        public void AddContact(Contact contact)
+        {
+            var sql = "insert into Contact (FirstName, LastName, Email, Gender) values ('" + contact.FirstName + "', '" + contact.LastName + "', '" + contact.Email + "', '" + contact.Gender + "')";
+            _connection.Open();
+            _connection.Execute(sql);
+            _connection.Close();
+        }
+
         private static string LoadConnectionString(string id = "Default")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
