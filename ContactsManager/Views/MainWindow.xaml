@@ -33,11 +33,11 @@
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="370"/>
-            <RowDefinition/>
+            <RowDefinition />
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
-        <ContentControl Content="{Binding}" Grid.Row="0">
+        <ContentControl Content="{Binding}" Grid.Row="0" Margin="10">
             <ContentControl.Style>
                 <Style TargetType="{x:Type ContentControl}">
                     <Setter Property="ContentTemplate" Value="{StaticResource View1Template}" />
