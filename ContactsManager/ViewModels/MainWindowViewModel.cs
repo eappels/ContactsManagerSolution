@@ -4,6 +4,7 @@ using ContactsManager.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace ContactsManager.ViewModels
@@ -15,9 +16,11 @@ namespace ContactsManager.ViewModels
         private ISQLdbService _sqldbService = App.Current.Services.GetService<ISQLdbService>(); 
         public ObservableCollection<Contact> Contacts { get; set; }
         private Contact _selectedContact;
+        private Contact _createContact = new Contact();
         public ICommand viewCommand { get; set; }
         private int _switchView;
         public ICommand SaveContactCommand { get; set; }
+        public ICommand ReloadContactsListCommand { get; set; }
         public ICommand UpdateContactCommand { get; set; }
         public ICommand ExitCommand { get; set; }
 
@@ -28,6 +31,7 @@ namespace ContactsManager.ViewModels
             viewCommand = new RelayCommand(viewCommand_Clicked, CanviewCommandBe_Clicked);
             SaveContactCommand = new RelayCommand(SaveContactCommand_Click, CanSaveContactCommandBe_Clicked);
             UpdateContactCommand = new RelayCommand(UpdateContactCommand_Click, CanUpdateContactCommandBe_Clicked);
+            ReloadContactsListCommand = new RelayCommand(ReloadContactsListCommand_Clicked, CanReloadContactsListCommandBe_Clicked);
             SwitchView = 0;
         }        
 
@@ -35,6 +39,12 @@ namespace ContactsManager.ViewModels
         {
             get => _selectedContact;
             set => SetProperty(ref _selectedContact, value);
+        }
+
+        public Contact CreateContact
+        {
+            get => _createContact;
+            set => SetProperty(ref _createContact, value);
         }
 
         private void ExitCommand_Clicked(object value)
@@ -63,20 +73,15 @@ namespace ContactsManager.ViewModels
             return SwitchView != int.Parse(value.ToString());
         }
 
-        /// <summary>
-        /// CRUD commands
-        /// </summary>
-        /// <param name="value"></param>
-        /// <exception cref="NotImplementedException"></exception>
-
         private void SaveContactCommand_Click(object value)
         {
-            throw new NotImplementedException();
+            _sqldbService.SaveContact(_createContact);
+            Contacts = _sqldbService.GetContacts();
         }
 
         private bool CanSaveContactCommandBe_Clicked(object value)
         {
-            return false;
+            return true;
         }
 
         private void UpdateContactCommand_Click(object value)
@@ -87,6 +92,16 @@ namespace ContactsManager.ViewModels
         private bool CanUpdateContactCommandBe_Clicked(object value)
         {
             return false;
+        }
+
+        private void ReloadContactsListCommand_Clicked(object value)
+        {
+            Contacts = _sqldbService.GetContacts();
+        }
+
+        private bool CanReloadContactsListCommandBe_Clicked(object value)
+        {
+            return true;
         }
     }
 }

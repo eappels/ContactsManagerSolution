@@ -31,7 +31,7 @@
             VerticalAlignment="Center" HorizontalAlignment="Stretch"
         />
 
-        <TextBox Text="{Binding SelectedContact.FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Text="{Binding CreateContact.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             x:Name="txt_FirstName"
             Grid.Column="1" Grid.Row="0"
             VerticalAlignment="Center"
@@ -43,7 +43,7 @@
             VerticalAlignment="Center" HorizontalAlignment="Stretch"
         />
 
-        <TextBox Text="{Binding SelectedContact.LastName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Text="{Binding CreateContact.LastName, Mode=OneWayToSource}"
             x:Name="txt_LastName"
             Grid.Column="1" Grid.Row="1"
             VerticalAlignment="Center"
@@ -55,7 +55,7 @@
             VerticalAlignment="Center" HorizontalAlignment="Stretch"
         />
 
-        <TextBox Text="{Binding SelectedContact.Email, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Text="{Binding CreateContact.Email, Mode=OneWayToSource}"
             x:Name="txt_Email"
             Grid.Column="1" Grid.Row="2"
             VerticalAlignment="Center"
@@ -71,7 +71,7 @@
             Grid.Column="1" Grid.Row="3"            
             VerticalAlignment="Center"
             Height="25"
-            SelectedIndex="{Binding SelectedContact.Gender, Converter={StaticResource GenderToIntConverter}}"
+            SelectedIndex="{Binding CreateContact.Gender, Converter={StaticResource GenderToIntConverter}, Mode=OneWayToSource}"
             x:Name="cbb_Gender"
         >
             <ComboBoxItem>Male</ComboBoxItem>
