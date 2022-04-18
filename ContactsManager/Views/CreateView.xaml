@@ -78,6 +78,6 @@
             <ComboBoxItem>Female</ComboBoxItem>
         </ComboBox>
 
-        <Button Content="Save contact" Grid.Column="1" Grid.Row="4"/>
+        <Button Content="Save contact" Command="{Binding SaveContactCommand}" Grid.Column="1" Grid.Row="4"/>
     </Grid>
 </UserControl>

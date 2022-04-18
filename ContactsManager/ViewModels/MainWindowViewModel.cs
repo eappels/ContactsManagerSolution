@@ -2,43 +2,32 @@
 using ContactsManager.Interfaces;
 using ContactsManager.Models;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace ContactsManager.ViewModels
 {
-    /// <summary>
-    /// MVVM pattern used in a CRUD app
-    /// </summary>
     public class MainWindowViewModel : BindableBase
     {
 
-        /// <summary>
-        /// Service references
-        /// </summary>
         private IJSONFileDataService _jsondataService = App.Current.Services.GetService<IJSONFileDataService>();
         private ISQLdbService _sqldbService = App.Current.Services.GetService<ISQLdbService>(); 
         public ObservableCollection<Contact> Contacts { get; set; }
         private Contact _selectedContact;
         public ICommand viewCommand { get; set; }
         private int _switchView;
-
-        /// <summary>
-        /// Commands
-        /// </summary>
-        public ICommand CreateCommand { get; set; }
-        public ICommand UpdateCommand { get; set; }
-        public ICommand DeleteCommand { get; set; }
+        public ICommand SaveContactCommand { get; set; }
+        public ICommand UpdateContactCommand { get; set; }
         public ICommand ExitCommand { get; set; }
 
         public MainWindowViewModel()
         {
             Contacts = _sqldbService.GetContacts();
-            CreateCommand = new RelayCommand(CreateCommand_Clicked, CanCreateCommandBe_Clicked);
-            UpdateCommand = new RelayCommand(UpdateCommand_Clicked, CanUpdateCommandCommandBe_Clicked);
-            DeleteCommand = new RelayCommand(DeleteCommand_Clicked, CanDeleteCommandBe_Clicked);
             ExitCommand = new RelayCommand(ExitCommand_Clicked, CanExitCommandBe_Clicked);
             viewCommand = new RelayCommand(viewCommand_Clicked, CanviewCommandBe_Clicked);
+            SaveContactCommand = new RelayCommand(SaveContactCommand_Click, CanSaveContactCommandBe_Clicked);
+            UpdateContactCommand = new RelayCommand(UpdateContactCommand_Click, CanUpdateContactCommandBe_Clicked);
             SwitchView = 0;
         }        
 
@@ -58,39 +47,6 @@ namespace ContactsManager.ViewModels
             return true;
         }
 
-        private void CreateCommand_Clicked(object value)
-        {
-            SelectedContact = new Contact();
-            Contacts.Add(SelectedContact);
-        }
-
-        private bool CanCreateCommandBe_Clicked(object value)
-        {
-             return false;
-        }
-
-        private void UpdateCommand_Clicked(object value)
-        {
-            _sqldbService.UpdateContact(SelectedContact);
-        }
-
-        private bool CanUpdateCommandCommandBe_Clicked(object value)
-        {
-            return SelectedContact != null;
-        }
-
-        private void DeleteCommand_Clicked(object value)
-        {
-            _sqldbService.DeleteContact(SelectedContact);
-            Contacts.Remove(SelectedContact);
-            SelectedContact = null;
-        }
-
-        private bool CanDeleteCommandBe_Clicked(object value)
-        {
-            return SelectedContact != null;
-        }
-
         public int SwitchView
         {
             get => _switchView;
@@ -105,6 +61,32 @@ namespace ContactsManager.ViewModels
         private bool CanviewCommandBe_Clicked(object value)
         {
             return SwitchView != int.Parse(value.ToString());
+        }
+
+        /// <summary>
+        /// CRUD commands
+        /// </summary>
+        /// <param name="value"></param>
+        /// <exception cref="NotImplementedException"></exception>
+
+        private void SaveContactCommand_Click(object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool CanSaveContactCommandBe_Clicked(object value)
+        {
+            return false;
+        }
+
+        private void UpdateContactCommand_Click(object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool CanUpdateContactCommandBe_Clicked(object value)
+        {
+            return false;
         }
     }
 }
