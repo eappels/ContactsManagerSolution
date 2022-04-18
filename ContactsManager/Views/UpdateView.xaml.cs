@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ContactsManager.Views
 {
     /// <summary>
-    /// Interaction logic for CRUDButtons.xaml
+    /// Interaction logic for UpdateView.xaml
     /// </summary>
-    public partial class CRUDButtons : UserControl
+    public partial class UpdateView : UserControl
     {
-        public CRUDButtons()
+        public UpdateView()
         {
             InitializeComponent();
         }

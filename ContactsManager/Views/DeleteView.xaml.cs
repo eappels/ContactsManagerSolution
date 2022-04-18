@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ContactsManager.Views
 {
     /// <summary>
-    /// Interaction logic for CRUDInput.xaml
+    /// Interaction logic for DeleteView.xaml
     /// </summary>
-    public partial class CRUDInput : UserControl
+    public partial class DeleteView : UserControl
     {
-        public CRUDInput()
+        public DeleteView()
         {
             InitializeComponent();
         }

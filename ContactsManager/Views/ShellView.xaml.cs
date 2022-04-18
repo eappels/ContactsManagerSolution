@@ -4,13 +4,12 @@ using System.Windows;
 
 namespace ContactsManager.Views
 {
-    public partial class MainWindow : Window
+    public partial class ShellView : Window
     {
 
-        public MainWindow()
+        public ShellView()
         {
             InitializeComponent();
-
             DataContext = App.Current.Services.GetService<MainWindowViewModel>();
         }
     }
