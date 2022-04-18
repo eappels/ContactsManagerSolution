@@ -38,7 +38,7 @@
             Height="25"
         />
 
-        <TextBlock Text="Firstname:"
+        <TextBlock Text="Lastname:"
             Grid.Column="0" Grid.Row="1"
             VerticalAlignment="Center" HorizontalAlignment="Stretch"
         />

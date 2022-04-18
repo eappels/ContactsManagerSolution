@@ -27,7 +27,8 @@ namespace ContactsManager.Services
         {
             using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
             {
-                var output = connection.Query<Contact>("SELECT * FROM Contact", new DynamicParameters());
+                var sql = "SELECT * FROM Contact";
+                var output = connection.Query<Contact>(sql, new DynamicParameters());
                 return new ObservableCollection<Contact>(output);
             }
         }
@@ -36,15 +37,17 @@ namespace ContactsManager.Services
         {
             using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
             {
-                connection.Execute("INSERT INTO Contact (FirstName, Lastname, Email, Gender) VALUES (@FirstName, @Lastname, @Email, @Gender)", contact);
+                var sql = "INSERT INTO Contact (FirstName, Lastname, Email, Gender) VALUES (@FirstName, @Lastname, @Email, @Gender)";
+                connection.Execute(sql, contact);
             }
         }
 
         public void UpdateContact(Contact contact)
         {
             using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
-            {
-                connection.Execute("UPDATE Contact (FirstName, Lastname, Email, Gender) VALUES (@FirstName, @Lastname, @Email, @Gender) WHERE Id = @Id", contact.Id);
+            {                
+                var sql = "UPDATE Contact SET FirstName = @FirstName, LastName = @LastName, Email = @Email, Gender = @Gender WHERE Id = @Id";
+                connection.Execute(sql, contact);
             }
         }
 
@@ -52,7 +55,8 @@ namespace ContactsManager.Services
         {
             using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
             {
-                connection.Execute("DELETE FROM Contact WHERE Id = @Id", new { Id = contact.Id });
+                var sql = "DELETE FROM Contact WHERE Id = @Id";
+                connection.Execute(sql, new { Id = contact.Id });
             }
         }
 

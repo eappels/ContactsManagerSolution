@@ -7,6 +7,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <ListView
+            ItemsSource="{Binding Contacts}"
+            SelectedItem="{Binding SelectedContact, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="First name" DisplayMemberBinding="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="140"/>
+                    <GridViewColumn Header="Last name" DisplayMemberBinding="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="140"/>
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="300"/>
+                    <GridViewColumn Header="Gender" DisplayMemberBinding="{Binding Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Content="Delete contact" Command="{Binding DeleteContactCommand}" Grid.Row="1"/>
     </Grid>
 </UserControl>

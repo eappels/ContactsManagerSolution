@@ -22,6 +22,8 @@ namespace ContactsManager.ViewModels
         public ICommand SaveContactCommand { get; set; }
         public ICommand ReloadContactsListCommand { get; set; }
         public ICommand UpdateContactCommand { get; set; }
+        public ICommand DeleteContactCommand { get; set; }
+
         public ICommand ExitCommand { get; set; }
 
         public MainWindowViewModel()
@@ -31,6 +33,7 @@ namespace ContactsManager.ViewModels
             viewCommand = new RelayCommand(viewCommand_Clicked, CanviewCommandBe_Clicked);
             SaveContactCommand = new RelayCommand(SaveContactCommand_Click, CanSaveContactCommandBe_Clicked);
             UpdateContactCommand = new RelayCommand(UpdateContactCommand_Click, CanUpdateContactCommandBe_Clicked);
+            DeleteContactCommand = new RelayCommand(DeleteContactCommand_Clicked, CanDeleteContactCommandBe_Clicked);
             ReloadContactsListCommand = new RelayCommand(ReloadContactsListCommand_Clicked, CanReloadContactsListCommandBe_Clicked);
             SwitchView = 0;
         }        
@@ -86,12 +89,23 @@ namespace ContactsManager.ViewModels
 
         private void UpdateContactCommand_Click(object value)
         {
-            throw new NotImplementedException();
+            _sqldbService.UpdateContact(SelectedContact);
         }
 
         private bool CanUpdateContactCommandBe_Clicked(object value)
         {
-            return false;
+            return SelectedContact != null;
+        }
+
+        private void DeleteContactCommand_Clicked(object value)
+        {
+            _sqldbService.DeleteContact(SelectedContact);
+            SelectedContact = null;
+        }
+
+        private bool CanDeleteContactCommandBe_Clicked(object value)
+        {
+            return SelectedContact != null;
         }
 
         private void ReloadContactsListCommand_Clicked(object value)
