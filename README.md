@@ -8,3 +8,4 @@ Using:
   - Dapper ORM
   - IOC (Inversion Of Control)
   - DI (Dependancy Injection)
+  - View navigation
