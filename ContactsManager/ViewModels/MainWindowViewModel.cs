@@ -79,7 +79,7 @@ namespace ContactsManager.ViewModels
         private void SaveContactCommand_Click(object value)
         {
             _sqldbService.SaveContact(_createContact);
-            Contacts = _sqldbService.GetContacts();
+            ReloadContactsList();
         }
 
         private bool CanSaveContactCommandBe_Clicked(object value)
@@ -90,6 +90,7 @@ namespace ContactsManager.ViewModels
         private void UpdateContactCommand_Click(object value)
         {
             _sqldbService.UpdateContact(SelectedContact);
+            ReloadContactsList();
         }
 
         private bool CanUpdateContactCommandBe_Clicked(object value)
@@ -101,6 +102,7 @@ namespace ContactsManager.ViewModels
         {
             _sqldbService.DeleteContact(SelectedContact);
             SelectedContact = null;
+            ReloadContactsList();
         }
 
         private bool CanDeleteContactCommandBe_Clicked(object value)
@@ -110,12 +112,22 @@ namespace ContactsManager.ViewModels
 
         private void ReloadContactsListCommand_Clicked(object value)
         {
-            Contacts = _sqldbService.GetContacts();
+            ReloadContactsList();
         }
 
         private bool CanReloadContactsListCommandBe_Clicked(object value)
         {
             return true;
+        }
+
+        private void ReloadContactsList()
+        {
+            Contacts.Clear();
+            ObservableCollection<Contact> contacts = _sqldbService.GetContacts();
+            foreach (Contact contact in contacts)
+            {
+                Contacts.Add(contact);
+            }
         }
     }
 }
