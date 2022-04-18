@@ -19,8 +19,17 @@ namespace ContactsManager.Services
 
         public SQLdbService()
         {
+            if (File.Exists(_database)) File.Delete(_database);
+            
             if (!File.Exists(_database))
-                SQLiteConnection.CreateFile(_database);
+            {
+                SQLiteConnection.CreateFile(_database);                
+                using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
+                {
+                    var sql = "CREATE TABLE 'Contact' ('Id' INTEGER NOT NULL UNIQUE, 'FirstName' TEXT, 'LastName' TEXT, 'Email' TEXT, 'Gender'	INTEGER, PRIMARY KEY( 'Id' AUTOINCREMENT));";
+                    connection.Execute(sql);
+                }
+            }
         }
 
         public ObservableCollection<Contact> GetContacts()
