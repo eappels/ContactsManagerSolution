@@ -33,11 +33,14 @@
     <Grid>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
             <RowDefinition />
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
 
-        <ContentControl Content="{Binding}" Grid.Row="0" Margin="10">
+        <view:Menu Grid.Row="0"/>
+        
+        <ContentControl Content="{Binding}" Grid.Row="1" Margin="10">
             <ContentControl.Style>
                 <Style TargetType="{x:Type ContentControl}">
                     <Setter Property="ContentTemplate" Value="{StaticResource View1Template}" />
@@ -56,7 +59,7 @@
             </ContentControl.Style>
         </ContentControl>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <Button Content="Contacts" Width="100" Height="25" Margin="5" Command="{Binding viewCommand}" CommandParameter="0"/>
             <Button Content="New" Width="100" Height="25" Margin="5" Command="{Binding viewCommand}" CommandParameter="1"/>
             <Button Content="Update" Width="100" Height="25" Margin="5" Command="{Binding viewCommand}" CommandParameter="2"/>
