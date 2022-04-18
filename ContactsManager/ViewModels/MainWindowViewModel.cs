@@ -20,7 +20,8 @@ namespace ContactsManager.ViewModels
         private ISQLdbService _sqldbService = App.Current.Services.GetService<ISQLdbService>(); 
         public ObservableCollection<Contact> Contacts { get; set; }
         private Contact _selectedContact;
-        private bool _isCreatingNewContact = false;
+        public ICommand viewCommand { get; set; }
+        private int _switchView;
 
         /// <summary>
         /// Commands
@@ -37,6 +38,8 @@ namespace ContactsManager.ViewModels
             UpdateCommand = new RelayCommand(UpdateCommand_Clicked, CanUpdateCommandCommandBe_Clicked);
             DeleteCommand = new RelayCommand(DeleteCommand_Clicked, CanDeleteCommandBe_Clicked);
             ExitCommand = new RelayCommand(ExitCommand_Clicked, CanExitCommandBe_Clicked);
+            viewCommand = new RelayCommand(viewCommand_Clicked, CanviewCommandBe_Clicked);
+            SwitchView = 0;
         }        
 
         public Contact SelectedContact
@@ -59,12 +62,11 @@ namespace ContactsManager.ViewModels
         {
             SelectedContact = new Contact();
             Contacts.Add(SelectedContact);
-            _isCreatingNewContact = true;
         }
 
         private bool CanCreateCommandBe_Clicked(object value)
         {
-             return !_isCreatingNewContact;
+             return false;
         }
 
         private void UpdateCommand_Clicked(object value)
@@ -77,10 +79,6 @@ namespace ContactsManager.ViewModels
             return SelectedContact != null;
         }
 
-        /// <summary>
-        /// Delete contact
-        /// </summary>
-        /// <param name="value"></param>
         private void DeleteCommand_Clicked(object value)
         {
             _sqldbService.DeleteContact(SelectedContact);
@@ -93,59 +91,20 @@ namespace ContactsManager.ViewModels
             return SelectedContact != null;
         }
 
-        ///// <summary>
-        ///// Clear fields command
-        ///// </summary>
-        ///// <param name="value"></param>
-        //private void ClearCommand_Clicked(object value)
-        //{
-        //    SelectedContact = null;            
-        //}
+        public int SwitchView
+        {
+            get => _switchView;
+            set => SetProperty(ref _switchView, value);
+        }
 
-        //private bool CanClearCommandBe_Clicked(object value)
-        //{
-        //    return SelectedContact != null;
-        //}
+        private void viewCommand_Clicked(object value)
+        {
+            SwitchView = int.Parse(value.ToString());
+        }
 
-        ///// <summary>
-        ///// Add contact command
-        ///// </summary>
-        ///// <param name="value"></param>
-        //private void AddCommand_Clicked(object value)
-        //{
-        //    SelectedContact = new Contact();
-        //    Contacts.Add(SelectedContact);
-        //    _sqldbService.AddContact(SelectedContact);
-        //}
-
-        //private bool CanAddCommandBe_Clicked(object value)
-        //{
-        //    return true;
-        //}
-
-        ///// <summary>
-        ///// Delete contact command
-        ///// </summary>
-        ///// <param name="value"></param>
-        //private void EditCommand_Clicked(object value)
-        //{
-        //    _sqldbService.DeleteContact(SelectedContact);
-        //    ReloadContacts();
-        //}
-
-        //private bool CanEditCommandBe_Clicked(object value)
-        //{
-        //    if (SelectedContact != null) return true;
-        //    else return false;
-        //}
-
-        //private void ReloadContacts()
-        //{
-        //    Contacts.Clear();
-        //    foreach (Contact c in _sqldbService.GetContacts())
-        //    {
-        //        Contacts.Add(c);
-        //    }
-        //}
+        private bool CanviewCommandBe_Clicked(object value)
+        {
+            return SwitchView != int.Parse(value.ToString());
+        }
     }
 }

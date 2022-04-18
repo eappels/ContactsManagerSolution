@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ContactsManager.Views
 {
     /// <summary>
-    /// Interaction logic for ContactsList.xaml
+    /// Interaction logic for ContactsListView.xaml
     /// </summary>
-    public partial class ContactsList : UserControl
+    public partial class ContactsListView : UserControl
     {
-        public ContactsList()
+        public ContactsListView()
         {
             InitializeComponent();
         }

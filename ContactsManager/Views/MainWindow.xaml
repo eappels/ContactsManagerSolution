@@ -5,48 +5,63 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ContactsManager"
         xmlns:helpers="clr-namespace:ContactsManager.Helpers"
-        xmlns:views="clr-namespace:ContactsManager.Views"
+        xmlns:view="clr-namespace:ContactsManager.Views"
+        xmlns:viewModel="clr-namespace:ContactsManager.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 
+    <Window.Resources>
+
+        <DataTemplate x:Key="View1Template" DataType="{x:Type viewModel:MainWindowViewModel}">
+            <view:ContactsListView />
+        </DataTemplate>
+
+        <DataTemplate x:Key="View2Template" DataType="{x:Type viewModel:MainWindowViewModel}">
+            <view:CRUDButtons />
+        </DataTemplate>
+
+        <DataTemplate x:Key="View3Template" DataType="{x:Type viewModel:MainWindowViewModel}">
+            <view:CRUDInput />
+        </DataTemplate>
+
+        <DataTemplate x:Key="View4Template" DataType="{x:Type viewModel:MainWindowViewModel}">
+            <view:ContactsListView />
+        </DataTemplate>
+
+    </Window.Resources>
+
     <Grid>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition Width="20"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="370"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <views:Menu Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="16" Grid.RowSpan="1"/>
-        <views:ContactsList Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="14" Grid.RowSpan="5" Margin="0,10,0,0"/>
-        <views:CRUDInput Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="8" Grid.RowSpan="4" Margin="0,10,0,0"/>
-        <views:CRUDButtons Grid.Column="10" Grid.Row="6" Grid.ColumnSpan="5" Grid.RowSpan="4" Margin="0,10,0,0"/>
-                
+        <ContentControl Content="{Binding}" Grid.Row="0">
+            <ContentControl.Style>
+                <Style TargetType="{x:Type ContentControl}">
+                    <Setter Property="ContentTemplate" Value="{StaticResource View1Template}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SwitchView}" Value="1">
+                            <Setter Property="ContentTemplate" Value="{StaticResource View2Template}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding SwitchView}" Value="2">
+                            <Setter Property="ContentTemplate" Value="{StaticResource View3Template}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding SwitchView}" Value="3">
+                            <Setter Property="ContentTemplate" Value="{StaticResource View4Template}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <Button Content="Contacts" Width="100" Height="25" Margin="5" Command="{Binding viewCommand}" CommandParameter="0"/>
+            <Button Content="New" Width="100" Height="25" Margin="5" Command="{Binding viewCommand}" CommandParameter="1"/>
+            <Button Content="Update" Width="100" Height="25" Margin="5" Command="{Binding viewCommand}" CommandParameter="2"/>
+            <Button Content="Delete" Width="100" Height="25" Margin="5" Command="{Binding viewCommand}" CommandParameter="3"/>
+        </StackPanel>
+
     </Grid>
 </Window>
