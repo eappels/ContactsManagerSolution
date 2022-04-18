@@ -2,14 +2,21 @@
 
 namespace ContactsManager.Models
 {
+    /// <summary>
+    /// MVVM pattern
+    /// </summary>
     public class Contact : BindableBase
     {
 
-        private int _id;
-
-        public Contact(int id)
+        public Contact()
         {
-            _id = id;
+        }
+
+        private int _id;
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
         }
 
         private string _firstName;

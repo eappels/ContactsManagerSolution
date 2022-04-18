@@ -4,6 +4,9 @@ using System.Windows.Input;
 
 namespace ContactsManager.Helpers
 {
+    /// <summary>
+    /// Commands helper class
+    /// </summary>
     public class RelayCommand : ICommand
     {
 

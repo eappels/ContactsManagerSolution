@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
-namespace ContactsManager
+namespace ContactsManager.Views
 {
     public partial class MainWindow : Window
     {

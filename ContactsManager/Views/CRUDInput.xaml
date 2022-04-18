@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="ContactsManager.Views.CRUDInput"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ContactsManager.Views" xmlns:helpers="clr-namespace:ContactsManager.Helpers"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <helpers:GenderToIntConverter x:Key="GenderToIntConverter"/>
+    </UserControl.Resources>
+    
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+
+        <TextBlock Text="Firstname:"
+            Grid.Column="0" Grid.Row="0"
+            Grid.ColumnSpan="1" Grid.RowSpan="1"
+            VerticalAlignment="Center" HorizontalAlignment="Stretch"
+        />
+
+        <TextBox Text="{Binding SelectedContact.FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            x:Name="txt_FirstName"
+            Grid.Column="1" Grid.Row="0"
+            Grid.ColumnSpan="1" Grid.RowSpan="1"
+            VerticalAlignment="Center"
+            Height="25"
+        />
+
+        <TextBlock Text="Firstname:"
+            Grid.Column="0" Grid.Row="1"
+            Grid.ColumnSpan="1" Grid.RowSpan="1"
+            VerticalAlignment="Center" HorizontalAlignment="Stretch"
+        />
+
+        <TextBox Text="{Binding SelectedContact.LastName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            x:Name="txt_LastName"
+            Grid.Column="1" Grid.Row="1"
+            Grid.ColumnSpan="6" Grid.RowSpan="1"
+            VerticalAlignment="Center"
+            Height="25"
+        />
+
+        <TextBlock Text="Email:"
+            Grid.Column="0" Grid.Row="2"
+            Grid.ColumnSpan="1" Grid.RowSpan="1"
+            VerticalAlignment="Center" HorizontalAlignment="Stretch"
+        />
+
+        <TextBox Text="{Binding SelectedContact.Email, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            x:Name="txt_Email"
+            Grid.Column="1" Grid.Row="2"
+            Grid.ColumnSpan="6" Grid.RowSpan="1"
+            VerticalAlignment="Center"
+            Height="25"
+        />
+
+        <TextBlock Text="Gender:"
+            Grid.Column="0" Grid.Row="3"
+            Grid.ColumnSpan="1" Grid.RowSpan="1"
+            VerticalAlignment="Center" HorizontalAlignment="Stretch"
+        />
+
+        <ComboBox
+            Grid.Column="1" Grid.Row="3"
+            Grid.ColumnSpan="6" Grid.RowSpan="1"
+            VerticalAlignment="Center"
+            Height="25"
+            SelectedIndex="{Binding SelectedContact.Gender, Converter={StaticResource GenderToIntConverter}}"
+            x:Name="cbb_Gender"
+        >
+            <ComboBoxItem>Male</ComboBoxItem>
+            <ComboBoxItem>Female</ComboBoxItem>
+        </ComboBox>
+    </Grid>
+</UserControl>

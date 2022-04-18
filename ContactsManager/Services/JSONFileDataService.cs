@@ -8,12 +8,15 @@ using System.IO;
 
 namespace ContactsManager.Services
 {
+    /// <summary>
+    /// JSON service definition
+    /// </summary>
     public class JSONFileDataService  : IJSONFileDataService
     {
 
         private string _datafile = "Contacts.json";
 
-        public ObservableCollection<Contact>? GetContacts()
+        public ObservableCollection<Contact> GetContacts()
         {
             string json = File.ReadAllText(_datafile);
             return JsonConvert.DeserializeObject<ObservableCollection<Contact>>(json);
