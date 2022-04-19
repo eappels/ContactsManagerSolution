@@ -129,11 +129,7 @@ namespace ContactsManager.ViewModels
             {
                 ObservableCollection<Contact> contacts = _jsondataService.GetContacts(openFileDialog.FileName);
                 _sqldbService.ProcessImportedContacts(contacts);
-                Contacts.Clear();
-                foreach (Contact contact in contacts)
-                {
-                    Contacts.Add(contact);
-                }
+                ReloadContactsList();
             }
         }
 
@@ -144,12 +140,7 @@ namespace ContactsManager.ViewModels
 
         private void ExportContactsCommand_Clicked(object value)
         {
-            Contacts.Clear();
-            ObservableCollection<Contact> contacts = _sqldbService.GetContacts();
-            foreach (Contact contact in contacts)
-            {
-                Contacts.Add(contact);
-            }
+            ReloadContactsList():
             _jsondataService.ExportContactstoFile(Contacts);
         }
 
