@@ -152,10 +152,14 @@ namespace ContactsManager.ViewModels
 
         private void ExportContactsCommand_Clicked(object value)
         {
-            if (Contacts != null)
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
             {
-                ReloadContactsList();
-                _jsondataService?.ExportContactstoFile(Contacts);
+                if (Contacts != null && _jsondataService != null)
+                {
+                    ReloadContactsList();
+                    _jsondataService?.ExportContactstoFile(Contacts, (string)openFileDialog.FileName);
+                }
             }
         }
 
