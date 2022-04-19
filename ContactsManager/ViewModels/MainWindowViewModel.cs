@@ -11,11 +11,11 @@ namespace ContactsManager.ViewModels
     public class MainWindowViewModel : BindableBase
     {
 
-        private IJSONFileDataService _jsondataService = App.Current.Services.GetService<IJSONFileDataService>();
-        private ISQLdbService _sqldbService = App.Current.Services.GetService<ISQLdbService>(); 
-        public ObservableCollection<Contact> Contacts { get; set; }
-        private Contact _selectedContact;
-        private Contact _createContact = new Contact();
+        private IJSONFileDataService? _jsondataService = App.Current.Services.GetService<IJSONFileDataService>();
+        private ISQLdbService? _sqldbService = App.Current.Services.GetService<ISQLdbService>(); 
+        public ObservableCollection<Contact>? Contacts { get; set; }
+        private Contact? _selectedContact;
+        private Contact? _createContact = new Contact();
         public ICommand viewCommand { get; set; }
         private int _switchView;
         public ICommand SaveContactCommand { get; set; }
@@ -28,7 +28,7 @@ namespace ContactsManager.ViewModels
 
         public MainWindowViewModel()
         {
-            Contacts = _sqldbService.GetContacts();
+            Contacts = _sqldbService?.GetContacts();
             ExitCommand = new RelayCommand(ExitCommand_Clicked, CanExitCommandBe_Clicked);
             viewCommand = new RelayCommand(viewCommand_Clicked, CanviewCommandBe_Clicked);
             SaveContactCommand = new RelayCommand(SaveContactCommand_Click, CanSaveContactCommandBe_Clicked);
@@ -40,13 +40,13 @@ namespace ContactsManager.ViewModels
             SwitchView = 0;
         }        
 
-        public Contact SelectedContact
+        public Contact? SelectedContact
         {
             get => _selectedContact;
             set => SetProperty(ref _selectedContact, value);
         }
 
-        public Contact CreateContact
+        public Contact? CreateContact
         {
             get => _createContact;
             set => SetProperty(ref _createContact, value);
@@ -80,7 +80,7 @@ namespace ContactsManager.ViewModels
 
         private void SaveContactCommand_Click(object value)
         {
-            _sqldbService.InsertContact(_createContact);
+            _sqldbService?.InsertContact(_createContact);
             ReloadContactsList();
         }
 
@@ -91,7 +91,7 @@ namespace ContactsManager.ViewModels
 
         private void UpdateContactCommand_Click(object value)
         {
-            _sqldbService.UpdateContact(SelectedContact);
+            _sqldbService?.UpdateContact(SelectedContact);
             ReloadContactsList();
         }
 
@@ -102,7 +102,7 @@ namespace ContactsManager.ViewModels
 
         private void DeleteContactCommand_Clicked(object value)
         {
-            _sqldbService.DeleteContact(SelectedContact);
+            _sqldbService?.DeleteContact(SelectedContact);
             SelectedContact = null;
             ReloadContactsList();
         }
@@ -127,8 +127,8 @@ namespace ContactsManager.ViewModels
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
-                ObservableCollection<Contact> contacts = _jsondataService.GetContacts(openFileDialog.FileName);
-                _sqldbService.ProcessImportedContacts(contacts);
+                ObservableCollection<Contact> contacts = _jsondataService?.GetContacts(openFileDialog.FileName);
+                _sqldbService?.ProcessImportedContacts(contacts);
                 ReloadContactsList();
             }
         }
@@ -141,7 +141,7 @@ namespace ContactsManager.ViewModels
         private void ExportContactsCommand_Clicked(object value)
         {
             ReloadContactsList();
-            _jsondataService.ExportContactstoFile(Contacts);
+            _jsondataService?.ExportContactstoFile(Contacts);
         }
 
         private bool CanExportContactsCommandBe_Clicked(object value)
@@ -152,7 +152,7 @@ namespace ContactsManager.ViewModels
         private void ReloadContactsList()
         {
             Contacts.Clear();
-            ObservableCollection<Contact> contacts = _sqldbService.GetContacts();
+            ObservableCollection<Contact>? contacts = _sqldbService?.GetContacts();
             foreach (Contact contact in contacts)
             {
                 Contacts.Add(contact);
