@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SQLite;
+using System.Diagnostics;
 using System.IO;
 
 namespace ContactsManager.Services
@@ -20,16 +21,24 @@ namespace ContactsManager.Services
 
         public SQLdbService()
         {
-            if (File.Exists(_database)) File.Delete(_database);
 
+            /// FOR DEVELOPMENT
+            //if (File.Exists(_database)) File.Delete(_database);
+
+            ///If the database is not found, we create a new one
             if (!File.Exists(_database))
             {
+                ///Create DB
                 SQLiteConnection.CreateFile(_database);
+
+                ///Create the table
                 using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
                 {
-                    var sql = "CREATE TABLE Contact (Id INTEGER PRIMARY KEY, FirstName TEXT, LastName TEXT, Email TEXT NOT NULL UNIQUE, Gender INTEGER);";
+                    var sql = "CREATE TABLE Contacts (Id INTEGER PRIMARY KEY, FirstName TEXT, LastName TEXT, Email TEXT NOT NULL UNIQUE, Gender INTEGER);";
                     connection.Execute(sql, new DynamicParameters());
                 }
+
+                ///Add data to the DB
                 using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
                 {
                     List<Contact> Contacts = new List<Contact>();
@@ -41,7 +50,7 @@ namespace ContactsManager.Services
 
                     foreach (Contact contact in Contacts)
                     {
-                        var sql = "INSERT INTO Contact (FirstName, Lastname, Email, Gender) VALUES (@FirstName, @Lastname, @Email, @Gender)";
+                        var sql = "INSERT INTO Contacts (FirstName, Lastname, Email, Gender) VALUES (@FirstName, @Lastname, @Email, @Gender)";
                         connection.Execute(sql, contact);
                     }
                 }
@@ -52,18 +61,20 @@ namespace ContactsManager.Services
         {
             using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
             {
-                var sql = "SELECT * FROM Contact";
-                var output = connection.Query<Contact>(sql, new DynamicParameters());
+                var sql = "SELECT * FROM Contacts";
+                var output = connection.Query<Contact>(sql);
                 return new ObservableCollection<Contact>(output);
             }
         }
 
-        public void SaveContact(Contact contact)
+        public void InsertContact(Contact contact)
         {
+            int i = 0;
             using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
             {
-                var sql = "INSERT INTO Contact (FirstName, Lastname, Email, Gender) VALUES (@FirstName, @Lastname, @Email, @Gender)";
-                connection.Execute(sql, contact);
+                var sql = "INSERT INTO Contacts (FirstName, Lastname, Email, Gender) VALUES (@FirstName, @Lastname, @Email, @Gender)";
+                i = connection.Execute(sql, contact);
+                Debug.WriteLine(i);
             }
         }
 
@@ -71,7 +82,7 @@ namespace ContactsManager.Services
         {
             using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
             {                
-                var sql = "UPDATE Contact SET FirstName = @FirstName, LastName = @LastName, Email = @Email, Gender = @Gender WHERE Id = @Id";
+                var sql = "UPDATE Contacts SET FirstName = @FirstName, LastName = @LastName, Email = @Email, Gender = @Gender WHERE Id = @Id";
                 connection.Execute(sql, contact);
             }
         }
@@ -80,7 +91,7 @@ namespace ContactsManager.Services
         {
             using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
             {
-                var sql = "DELETE FROM Contact WHERE Id = @Id";
+                var sql = "DELETE FROM Contacts WHERE Id = @Id";
                 connection.Execute(sql, new { Id = contact.Id });
             }
         }
