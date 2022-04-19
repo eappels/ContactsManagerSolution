@@ -140,7 +140,7 @@ namespace ContactsManager.ViewModels
 
         private void ExportContactsCommand_Clicked(object value)
         {
-            ReloadContactsList():
+            ReloadContactsList();
             _jsondataService.ExportContactstoFile(Contacts);
         }
 
