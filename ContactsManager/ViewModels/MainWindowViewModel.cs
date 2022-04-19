@@ -78,7 +78,7 @@ namespace ContactsManager.ViewModels
 
         private void SaveContactCommand_Click(object value)
         {
-            _sqldbService.SaveContact(_createContact);
+            _sqldbService.InsertContact(_createContact);
             ReloadContactsList();
         }
 

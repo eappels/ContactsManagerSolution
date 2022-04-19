@@ -31,7 +31,7 @@
             VerticalAlignment="Center" HorizontalAlignment="Stretch"
         />
 
-        <TextBox Text="{Binding CreateContact.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        <TextBox Text="{Binding CreateContact.FirstName, Mode=OneWayToSource}"
             x:Name="txt_FirstName"
             Grid.Column="1" Grid.Row="0"
             VerticalAlignment="Center"

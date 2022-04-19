@@ -6,7 +6,7 @@ namespace ContactsManager.Interfaces
     public interface ISQLdbService
     {
         ObservableCollection<Contact> GetContacts();
-        void SaveContact(Contact contact);
+        void InsertContact(Contact contact);
         void UpdateContact(Contact contact);
         void DeleteContact(Contact contact);
     }
