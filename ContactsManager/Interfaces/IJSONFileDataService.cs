@@ -5,7 +5,7 @@ namespace ContactsManager.Interfaces
 {
     public interface IJSONFileDataService
     {
-        ObservableCollection<Contact> GetContacts();
-        void SaveContacts(ObservableCollection<Contact> contacts);
+        ObservableCollection<Contact> GetContacts(string inputFile);
+        void ExportContactstoFile(ObservableCollection<Contact> contacts);
     }
 }

@@ -2,9 +2,8 @@
 using ContactsManager.Interfaces;
 using ContactsManager.Models;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using Microsoft.Win32;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows.Input;
 
 namespace ContactsManager.ViewModels
@@ -23,7 +22,8 @@ namespace ContactsManager.ViewModels
         public ICommand ReloadContactsListCommand { get; set; }
         public ICommand UpdateContactCommand { get; set; }
         public ICommand DeleteContactCommand { get; set; }
-
+        public ICommand ImportContactsCommand { get; set; }
+        public ICommand ExportContactsCommand { get; set; }
         public ICommand ExitCommand { get; set; }
 
         public MainWindowViewModel()
@@ -35,6 +35,8 @@ namespace ContactsManager.ViewModels
             UpdateContactCommand = new RelayCommand(UpdateContactCommand_Click, CanUpdateContactCommandBe_Clicked);
             DeleteContactCommand = new RelayCommand(DeleteContactCommand_Clicked, CanDeleteContactCommandBe_Clicked);
             ReloadContactsListCommand = new RelayCommand(ReloadContactsListCommand_Clicked, CanReloadContactsListCommandBe_Clicked);
+            ImportContactsCommand = new RelayCommand(ImportContactsCommand_Clicked, CanImportContactsCommandBe_Clicked);
+            ExportContactsCommand = new RelayCommand(ExportContactsCommand_Clicked, CanExportContactsCommandBe_Clicked);
             SwitchView = 0;
         }        
 
@@ -118,6 +120,41 @@ namespace ContactsManager.ViewModels
         private bool CanReloadContactsListCommandBe_Clicked(object value)
         {
             return true;
+        }
+
+        private void ImportContactsCommand_Clicked(object value)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                ObservableCollection<Contact> contacts = _jsondataService.GetContacts(openFileDialog.FileName);
+                Contacts.Clear();
+                foreach (Contact contact in contacts)
+                {
+                    Contacts.Add(contact);
+                }
+            }
+        }
+
+        private bool CanImportContactsCommandBe_Clicked(object value)
+        {
+            return true;
+        }
+
+        private void ExportContactsCommand_Clicked(object value)
+        {
+            Contacts.Clear();
+            ObservableCollection<Contact> contacts = _sqldbService.GetContacts();
+            foreach (Contact contact in contacts)
+            {
+                Contacts.Add(contact);
+            }
+            _jsondataService.ExportContactstoFile(Contacts);
+        }
+
+        private bool CanExportContactsCommandBe_Clicked(object value)
+        {
+            return Contacts.Count > 0;
         }
 
         private void ReloadContactsList()

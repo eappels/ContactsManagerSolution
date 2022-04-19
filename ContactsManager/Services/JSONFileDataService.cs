@@ -14,15 +14,15 @@ namespace ContactsManager.Services
     public class JSONFileDataService  : IJSONFileDataService
     {
 
-        private string _datafile = "Contacts.json";
+        private string _datafile = "ContactsManager_export.json";
 
-        public ObservableCollection<Contact> GetContacts()
+        public ObservableCollection<Contact> GetContacts(string inputFile)
         {
-            string json = File.ReadAllText(_datafile);
+            string json = File.ReadAllText(inputFile);
             return JsonConvert.DeserializeObject<ObservableCollection<Contact>>(json);
         }
 
-        public void SaveContacts(ObservableCollection<Contact> contacts)
+        public void ExportContactstoFile(ObservableCollection<Contact> contacts)
         {
             string json = JsonConvert.SerializeObject(contacts);
             try
