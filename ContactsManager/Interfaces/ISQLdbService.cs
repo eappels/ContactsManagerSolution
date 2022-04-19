@@ -9,5 +9,6 @@ namespace ContactsManager.Interfaces
         void InsertContact(Contact contact);
         void UpdateContact(Contact contact);
         void DeleteContact(Contact contact);
+        void ProcessImportedContacts(ObservableCollection<Contact> importedContacts);
     }
 }

@@ -10,6 +10,9 @@
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File" Width="50">
+                    <MenuItem Header="_Import contacts" Command="{Binding ImportContactsCommand}"/>
+                    <MenuItem Header="_Export contacts" Command="{Binding ExportContactsCommand}"/>
+                    <Separator />
                     <MenuItem Header="_Exit" Command="{Binding ExitCommand}"/>
                 </MenuItem>
             </Menu>

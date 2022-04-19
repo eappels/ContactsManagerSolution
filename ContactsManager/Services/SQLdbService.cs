@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SQLite;
-using System.Diagnostics;
 using System.IO;
 
 namespace ContactsManager.Services
@@ -17,12 +16,12 @@ namespace ContactsManager.Services
     public class SQLdbService : ISQLdbService
     {
 
-        public string _database = "ContactsManager.db";
+        public static string _database = "ContactsManager.db";
 
         public SQLdbService()
         {
 
-            /// FOR DEVELOPMENT
+            /// DELETE DB FOR DEVELOPMENT
             //if (File.Exists(_database)) File.Delete(_database);
 
             ///If the database is not found, we create a new one
@@ -38,7 +37,7 @@ namespace ContactsManager.Services
                     connection.Execute(sql, new DynamicParameters());
                 }
 
-                ///Add data to the DB
+                ///Add test data to the DB
                 using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
                 {
                     List<Contact> Contacts = new List<Contact>();
@@ -57,6 +56,10 @@ namespace ContactsManager.Services
             }
         }
 
+        /// <summary>
+        /// CRUD get
+        /// </summary>
+        /// <returns>ObservableCollection<Contact></returns>
         public ObservableCollection<Contact> GetContacts()
         {
             using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
@@ -67,17 +70,23 @@ namespace ContactsManager.Services
             }
         }
 
+        /// <summary>
+        /// CRUD insert
+        /// </summary>
+        /// <param name="contact"></param>
         public void InsertContact(Contact contact)
         {
-            int i = 0;
             using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
             {
                 var sql = "INSERT INTO Contacts (FirstName, Lastname, Email, Gender) VALUES (@FirstName, @Lastname, @Email, @Gender)";
-                i = connection.Execute(sql, contact);
-                Debug.WriteLine(i);
+                connection.Execute(sql, contact);
             }
         }
 
+        /// <summary>
+        /// CRUD update
+        /// </summary>
+        /// <param name="contact"></param>
         public void UpdateContact(Contact contact)
         {
             using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
@@ -87,6 +96,10 @@ namespace ContactsManager.Services
             }
         }
 
+        /// <summary>
+        /// CRUD delete
+        /// </summary>
+        /// <param name="contact"></param>
         public void DeleteContact(Contact contact)
         {
             using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
@@ -96,9 +109,38 @@ namespace ContactsManager.Services
             }
         }
 
+        /// <summary>
+        /// DB connection string
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private string LoadConnectionString(string id = "Default")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
+        }
+
+        public void ProcessImportedContacts(ObservableCollection<Contact> importedContacts)
+        {
+            ///Wipe DB
+            if (File.Exists(_database)) File.Delete(_database);
+            ///Create DB
+            SQLiteConnection.CreateFile(_database);
+            ///Create the table
+            using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
+            {
+                var sql = "CREATE TABLE Contacts (Id INTEGER PRIMARY KEY, FirstName TEXT, LastName TEXT, Email TEXT NOT NULL UNIQUE, Gender INTEGER);";
+                connection.Execute(sql, new DynamicParameters());
+            }
+
+            ///Add imported contacts to the DB
+            using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
+            {
+                foreach (Contact contact in importedContacts)
+                {
+                    var sql = "INSERT INTO Contacts (FirstName, Lastname, Email, Gender) VALUES (@FirstName, @Lastname, @Email, @Gender)";
+                    connection.Execute(sql, contact);
+                }
+            }
         }
     }
 }
