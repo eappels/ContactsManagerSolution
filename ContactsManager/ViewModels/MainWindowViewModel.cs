@@ -128,6 +128,7 @@ namespace ContactsManager.ViewModels
             if (openFileDialog.ShowDialog() == true)
             {
                 ObservableCollection<Contact> contacts = _jsondataService.GetContacts(openFileDialog.FileName);
+                _sqldbService.ProcessImportedContacts(contacts);
                 Contacts.Clear();
                 foreach (Contact contact in contacts)
                 {

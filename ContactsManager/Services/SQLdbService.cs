@@ -118,5 +118,29 @@ namespace ContactsManager.Services
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
         }
+
+        public void ProcessImportedContacts(ObservableCollection<Contact> importedContacts)
+        {
+            ///Wipe DB
+            if (File.Exists(_database)) File.Delete(_database);
+            ///Create DB
+            SQLiteConnection.CreateFile(_database);
+            ///Create the table
+            using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
+            {
+                var sql = "CREATE TABLE Contacts (Id INTEGER PRIMARY KEY, FirstName TEXT, LastName TEXT, Email TEXT NOT NULL UNIQUE, Gender INTEGER);";
+                connection.Execute(sql, new DynamicParameters());
+            }
+
+            ///Add imported contacts to the DB
+            using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
+            {
+                foreach (Contact contact in importedContacts)
+                {
+                    var sql = "INSERT INTO Contacts (FirstName, Lastname, Email, Gender) VALUES (@FirstName, @Lastname, @Email, @Gender)";
+                    connection.Execute(sql, contact);
+                }
+            }
+        }
     }
 }
