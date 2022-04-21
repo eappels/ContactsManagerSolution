@@ -27,10 +27,25 @@ namespace ContactsManager.Helpers
             _canExecute = canExecute;
         }
 
+        public RelayCommand(Action<object> execute)
+        {
+            if (execute == null)
+                throw new ArgumentNullException("execute");
+
+            _execute = execute;
+            _canExecute = CanExecuteAlwaysTrue;
+        }
+
         [DebuggerStepThrough]
         public bool CanExecute(object parameter)
         {
             return _canExecute == null ? true : _canExecute(parameter);
+        }
+
+        [DebuggerStepThrough]
+        public bool CanExecuteAlwaysTrue(object parameter)
+        {
+            return true;
         }
 
         public event EventHandler CanExecuteChanged

@@ -8,6 +8,9 @@ using System.Windows.Input;
 
 namespace ContactsManager.ViewModels
 {
+    /// <summary>
+    /// MVVM pattern - View Model
+    /// </summary>
     public class MainWindowViewModel : BindableBase
     {
 
@@ -29,13 +32,13 @@ namespace ContactsManager.ViewModels
         public MainWindowViewModel()
         {
             Contacts = _sqldbService?.GetContacts();
-            ExitCommand = new RelayCommand(ExitCommand_Clicked, CanExitCommandBe_Clicked);
+            ExitCommand = new RelayCommand(ExitCommand_Clicked);
             viewCommand = new RelayCommand(viewCommand_Clicked, CanviewCommandBe_Clicked);
-            SaveContactCommand = new RelayCommand(SaveContactCommand_Click, CanSaveContactCommandBe_Clicked);
+            SaveContactCommand = new RelayCommand(SaveContactCommand_Click);
             UpdateContactCommand = new RelayCommand(UpdateContactCommand_Click, CanUpdateContactCommandBe_Clicked);
             DeleteContactCommand = new RelayCommand(DeleteContactCommand_Clicked, CanDeleteContactCommandBe_Clicked);
-            ReloadContactsListCommand = new RelayCommand(ReloadContactsListCommand_Clicked, CanReloadContactsListCommandBe_Clicked);
-            ImportContactsCommand = new RelayCommand(ImportContactsCommand_Clicked, CanImportContactsCommandBe_Clicked);
+            ReloadContactsListCommand = new RelayCommand(ReloadContactsListCommand_Clicked);
+            ImportContactsCommand = new RelayCommand(ImportContactsCommand_Clicked);
             ExportContactsCommand = new RelayCommand(ExportContactsCommand_Clicked, CanExportContactsCommandBe_Clicked);
             SwitchView = 0;
         }        
@@ -87,11 +90,6 @@ namespace ContactsManager.ViewModels
             }
         }
 
-        private bool CanSaveContactCommandBe_Clicked(object value)
-        {
-            return true;
-        }
-
         private void UpdateContactCommand_Click(object value)
         {
             if (SelectedContact != null)
@@ -126,11 +124,6 @@ namespace ContactsManager.ViewModels
             ReloadContactsList();
         }
 
-        private bool CanReloadContactsListCommandBe_Clicked(object value)
-        {
-            return true;
-        }
-
         private void ImportContactsCommand_Clicked(object value)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -143,11 +136,6 @@ namespace ContactsManager.ViewModels
                     ReloadContactsList();
                 }
             }
-        }
-
-        private bool CanImportContactsCommandBe_Clicked(object value)
-        {
-            return true;
         }
 
         private void ExportContactsCommand_Clicked(object value)

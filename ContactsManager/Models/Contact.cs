@@ -3,7 +3,7 @@
 namespace ContactsManager.Models
 {
     /// <summary>
-    /// MVVM pattern
+    /// MVVM pattern - Model
     /// </summary>
     public class Contact : BindableBase
     {
