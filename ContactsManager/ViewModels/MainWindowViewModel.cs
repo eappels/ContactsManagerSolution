@@ -60,11 +60,6 @@ namespace ContactsManager.ViewModels
             App.Current.Shutdown();
         }
 
-        private bool CanExitCommandBe_Clicked(object value)
-        {
-            return true;
-        }
-
         public int SwitchView
         {
             get => _switchView;
