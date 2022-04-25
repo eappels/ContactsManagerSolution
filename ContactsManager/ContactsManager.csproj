@@ -2,12 +2,17 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
+    <TargetFramework>net6.0-windows10.0.17763.0</TargetFramework>
+    <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
     <StartupObject>ContactsManager.App</StartupObject>
     <Platforms>AnyCPU;x64</Platforms>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="favicon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />

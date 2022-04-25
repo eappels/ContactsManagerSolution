@@ -14,11 +14,11 @@ namespace ContactsManager.ViewModels
     public class MainWindowViewModel : BindableBase
     {
 
-        private IJSONFileDataService? _jsondataService = App.Current.Services.GetService<IJSONFileDataService>();
-        private ISQLdbService? _sqldbService = App.Current.Services.GetService<ISQLdbService>(); 
-        public ObservableCollection<Contact>? Contacts { get; set; }
-        private Contact? _selectedContact;
-        private Contact? _createContact = new Contact();
+        private IJSONFileDataService _jsondataService = App.Current.Services.GetService<IJSONFileDataService>();
+        private ISQLdbService _sqldbService = App.Current.Services.GetService<ISQLdbService>(); 
+        public ObservableCollection<Contact> Contacts { get; set; }
+        private Contact _selectedContact;
+        private Contact _createContact = new Contact();
         public ICommand viewCommand { get; set; }
         private int _switchView;
         public ICommand SaveContactCommand { get; set; }
@@ -31,7 +31,7 @@ namespace ContactsManager.ViewModels
 
         public MainWindowViewModel()
         {
-            Contacts = _sqldbService?.GetContacts();
+            Contacts = _sqldbService.GetContacts();
             ExitCommand = new RelayCommand(ExitCommand_Clicked);
             viewCommand = new RelayCommand(viewCommand_Clicked, CanviewCommandBe_Clicked);
             SaveContactCommand = new RelayCommand(SaveContactCommand_Click);
@@ -43,13 +43,13 @@ namespace ContactsManager.ViewModels
             SwitchView = 0;
         }        
 
-        public Contact? SelectedContact
+        public Contact SelectedContact
         {
             get => _selectedContact;
             set => SetProperty(ref _selectedContact, value);
         }
 
-        public Contact? CreateContact
+        public Contact CreateContact
         {
             get => _createContact;
             set => SetProperty(ref _createContact, value);
@@ -80,7 +80,7 @@ namespace ContactsManager.ViewModels
         {
             if (_createContact != null)
             {
-                _sqldbService?.InsertContact(_createContact);
+                _sqldbService.InsertContact(_createContact);
                 ReloadContactsList();
             }
         }
@@ -89,7 +89,7 @@ namespace ContactsManager.ViewModels
         {
             if (SelectedContact != null)
             {
-                _sqldbService?.UpdateContact(SelectedContact);
+                _sqldbService.UpdateContact(SelectedContact);
                 ReloadContactsList();
             }
         }
@@ -103,7 +103,7 @@ namespace ContactsManager.ViewModels
         {
             if (SelectedContact != null)
             {
-                _sqldbService?.DeleteContact(SelectedContact);
+                _sqldbService.DeleteContact(SelectedContact);
                 SelectedContact = null;
                 ReloadContactsList();
             }
@@ -127,7 +127,7 @@ namespace ContactsManager.ViewModels
                 if (_jsondataService != null)
                 {
                     ObservableCollection<Contact> contacts = _jsondataService.GetContacts((string)openFileDialog.FileName);
-                    _sqldbService?.ProcessImportedContacts((ObservableCollection<Contact>)contacts);
+                    _sqldbService.ProcessImportedContacts((ObservableCollection<Contact>)contacts);
                     ReloadContactsList();
                 }
             }
@@ -135,13 +135,13 @@ namespace ContactsManager.ViewModels
 
         private void ExportContactsCommand_Clicked(object value)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            if (saveFileDialog.ShowDialog() == true)
             {
                 if (Contacts != null && _jsondataService != null)
                 {
                     ReloadContactsList();
-                    _jsondataService?.ExportContactstoFile(Contacts, (string)openFileDialog.FileName);
+                    _jsondataService.ExportContactstoFile(Contacts, (string)saveFileDialog.FileName);
                 }
             }
         }
@@ -159,7 +159,7 @@ namespace ContactsManager.ViewModels
             if (Contacts != null)
             {
                 Contacts.Clear();
-                ObservableCollection<Contact>? contacts = _sqldbService?.GetContacts();
+                ObservableCollection<Contact> contacts = _sqldbService.GetContacts();
                 if (contacts != null)
                 {
                     foreach (Contact contact in contacts)
