@@ -1,6 +1,7 @@
 ﻿using ContactsManager.Interfaces;
 using ContactsManager.Services;
 using ContactsManager.ViewModels;
+using ContactsManager.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
@@ -20,6 +21,13 @@ namespace ContactsManager
         public App()
         {
             Services = ConfigureServices();
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            var win = new ShellView();
+            win.Show();
         }
 
         /// <summary>
