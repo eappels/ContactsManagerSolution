@@ -60,10 +60,10 @@
         </ContentControl>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-            <Button Content="Contacts" Width="100" Height="25" Margin="5" Command="{Binding viewCommand}" CommandParameter="0"/>
-            <Button Content="New" Width="100" Height="25" Margin="5" Command="{Binding viewCommand}" CommandParameter="1"/>
-            <Button Content="Update" Width="100" Height="25" Margin="5" Command="{Binding viewCommand}" CommandParameter="2"/>
-            <Button Content="Delete" Width="100" Height="25" Margin="5" Command="{Binding viewCommand}" CommandParameter="3"/>
+            <Button Content="Contacts" Width="100" Height="25" Margin="5" Command="{Binding ViewCommand}" CommandParameter="0"/>
+            <Button Content="New" Width="100" Height="25" Margin="5" Command="{Binding ViewCommand}" CommandParameter="1"/>
+            <Button Content="Update" Width="100" Height="25" Margin="5" Command="{Binding ViewCommand}" CommandParameter="2"/>
+            <Button Content="Delete" Width="100" Height="25" Margin="5" Command="{Binding ViewCommand}" CommandParameter="3"/>
         </StackPanel>
 
     </Grid>
