@@ -43,7 +43,7 @@ namespace ContactsManager.ViewModels
             ImportContactsCommand = new ImportContactsCommand(this);
             ExportContactsCommand = new ExportContactsCommand(this);
             SwitchView = 0;
-        }        
+        }
 
         public Contact? SelectedContact
         {
@@ -94,10 +94,12 @@ namespace ContactsManager.ViewModels
 
         public void UpdateContactCommand_Click(object value)
         {
+            Contact? tmpContact = SelectedContact;
             if (SelectedContact != null)
             {
                 _sqldbService?.UpdateContact(SelectedContact);
                 ReloadContactsList();
+                SelectedContact = tmpContact;
             }
         }
 
@@ -129,6 +131,7 @@ namespace ContactsManager.ViewModels
         public void ImportContactsCommand_Clicked(object value)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Json files (*.json)|*.json";
             if (openFileDialog.ShowDialog() == true)
             {
                 if (_jsondataService != null)
@@ -142,13 +145,15 @@ namespace ContactsManager.ViewModels
 
         public void ExportContactsCommand_Clicked(object value)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Json files (*.json)|*.json";
+
+            if (saveFileDialog.ShowDialog() == true)
             {
                 if (Contacts != null && _jsondataService != null)
                 {
                     ReloadContactsList();
-                    _jsondataService?.ExportContactstoFile(Contacts, (string)openFileDialog.FileName);
+                    _jsondataService?.ExportContactstoFile(Contacts, (string)saveFileDialog.FileName);
                 }
             }
         }

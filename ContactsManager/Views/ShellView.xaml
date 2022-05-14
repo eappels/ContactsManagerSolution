@@ -21,7 +21,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="View3Template" DataType="{x:Type viewModel:MainWindowViewModel}">
-            <view:UpdateView />
+            <view:EditView />
         </DataTemplate>
 
         <DataTemplate x:Key="View4Template" DataType="{x:Type viewModel:MainWindowViewModel}">
