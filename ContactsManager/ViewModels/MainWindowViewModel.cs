@@ -1,9 +1,11 @@
-﻿using ContactsManager.Helpers;
+﻿using ContactsManager.Commands;
+using ContactsManager.Helpers;
 using ContactsManager.Interfaces;
 using ContactsManager.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace ContactsManager.ViewModels
@@ -19,29 +21,29 @@ namespace ContactsManager.ViewModels
         public ObservableCollection<Contact>? Contacts { get; set; }
         private Contact? _selectedContact;
         private Contact? _createContact = new Contact();
-        public ICommand viewCommand { get; set; }
+        public ICommand ViewCommand { get; set; }
         private int _switchView;
         public ICommand SaveContactCommand { get; set; }
         public ICommand ReloadContactsListCommand { get; set; }
         public ICommand UpdateContactCommand { get; set; }
         public ICommand DeleteContactCommand { get; set; }
-        public ICommand ImportContactsCommand { get; set; }
-        public ICommand ExportContactsCommand { get; set; }
-        public ICommand ExitCommand { get; set; }
+        public ICommand ImportContactsCommand { get; }
+        public ICommand ExportContactsCommand { get; }
+        public ICommand ExitCommand { get; }
 
         public MainWindowViewModel()
         {
             Contacts = _sqldbService?.GetContacts();
-            ExitCommand = new RelayCommand(ExitCommand_Clicked);
-            viewCommand = new RelayCommand(viewCommand_Clicked, CanviewCommandBe_Clicked);
-            SaveContactCommand = new RelayCommand(SaveContactCommand_Click);
-            UpdateContactCommand = new RelayCommand(UpdateContactCommand_Click, CanUpdateContactCommandBe_Clicked);
-            DeleteContactCommand = new RelayCommand(DeleteContactCommand_Clicked, CanDeleteContactCommandBe_Clicked);
-            ReloadContactsListCommand = new RelayCommand(ReloadContactsListCommand_Clicked);
-            ImportContactsCommand = new RelayCommand(ImportContactsCommand_Clicked);
-            ExportContactsCommand = new RelayCommand(ExportContactsCommand_Clicked, CanExportContactsCommandBe_Clicked);
+            ExitCommand = new ExitCommand(this);
+            ViewCommand = new ViewCommand(this);
+            SaveContactCommand = new SaveContactCommand(this);
+            UpdateContactCommand = new UpdateContactCommand(this);
+            DeleteContactCommand = new DeleteCommand(this);
+            ReloadContactsListCommand = new ReloadContactsListCommand(this);
+            ImportContactsCommand = new ImportContactsCommand(this);
+            ExportContactsCommand = new ExportContactsCommand(this);
             SwitchView = 0;
-        }        
+        }
 
         public Contact? SelectedContact
         {
@@ -55,7 +57,7 @@ namespace ContactsManager.ViewModels
             set => SetProperty(ref _createContact, value);
         }
 
-        private void ExitCommand_Clicked(object value)
+        public void ExitCommand_Clicked(object value)
         {
             App.Current.Shutdown();
         }
@@ -66,17 +68,22 @@ namespace ContactsManager.ViewModels
             set => SetProperty(ref _switchView, value);
         }
 
-        private void viewCommand_Clicked(object value)
+        public void ViewCommand_Clicked(object value)
         {
+            Debug.WriteLine(value);
             SwitchView = int.Parse((string)value);
         }
 
-        private bool CanviewCommandBe_Clicked(object value)
+        public bool CanviewCommandBe_Clicked(object value)
         {
             return SwitchView != int.Parse((string)value);
         }
 
-        private void SaveContactCommand_Click(object value)
+        /// <summary>
+        /// CRUD
+        /// </summary>
+
+        public void CreateContactCommand_Click(object value)
         {
             if (_createContact != null)
             {
@@ -85,21 +92,23 @@ namespace ContactsManager.ViewModels
             }
         }
 
-        private void UpdateContactCommand_Click(object value)
+        public void UpdateContactCommand_Click(object value)
         {
+            Contact? tmpContact = SelectedContact;
             if (SelectedContact != null)
             {
                 _sqldbService?.UpdateContact(SelectedContact);
                 ReloadContactsList();
+                SelectedContact = tmpContact;
             }
         }
 
-        private bool CanUpdateContactCommandBe_Clicked(object value)
+        public bool CanUpdateContactCommandBe_Clicked(object value)
         {
             return SelectedContact != null;
         }
 
-        private void DeleteContactCommand_Clicked(object value)
+        public void DeleteContactCommand_Clicked(object value)
         {
             if (SelectedContact != null)
             {
@@ -109,19 +118,20 @@ namespace ContactsManager.ViewModels
             }
         }
 
-        private bool CanDeleteContactCommandBe_Clicked(object value)
+        public bool CanDeleteContactCommandBe_Clicked(object value)
         {
             return SelectedContact != null;
         }
 
-        private void ReloadContactsListCommand_Clicked(object value)
+        public void ReloadContactsListCommand_Clicked(object value)
         {
             ReloadContactsList();
         }
 
-        private void ImportContactsCommand_Clicked(object value)
+        public void ImportContactsCommand_Clicked(object value)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Json files (*.json)|*.json";
             if (openFileDialog.ShowDialog() == true)
             {
                 if (_jsondataService != null)
@@ -133,20 +143,22 @@ namespace ContactsManager.ViewModels
             }
         }
 
-        private void ExportContactsCommand_Clicked(object value)
+        public void ExportContactsCommand_Clicked(object value)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Json files (*.json)|*.json";
+
+            if (saveFileDialog.ShowDialog() == true)
             {
                 if (Contacts != null && _jsondataService != null)
                 {
                     ReloadContactsList();
-                    _jsondataService?.ExportContactstoFile(Contacts, (string)openFileDialog.FileName);
+                    _jsondataService?.ExportContactstoFile(Contacts, (string)saveFileDialog.FileName);
                 }
             }
         }
 
-        private bool CanExportContactsCommandBe_Clicked(object value)
+        public bool CanExportContactsCommandBe_Clicked(object value)
         {
             if (Contacts != null)
                 return Contacts.Count > 0;

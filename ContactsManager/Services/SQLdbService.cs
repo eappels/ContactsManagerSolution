@@ -20,10 +20,10 @@ namespace ContactsManager.Services
 
         public SQLdbService()
         {
-
+#if DEBUG
             /// DELETE DB FOR DEVELOPMENT
-            //if (File.Exists(_database)) File.Delete(_database);
-
+            if (File.Exists(_database)) File.Delete(_database);
+#endif
             ///If the database is not found, we create a new one
             if (!File.Exists(_database))
             {
@@ -37,6 +37,7 @@ namespace ContactsManager.Services
                     connection.Execute(sql, new DynamicParameters());
                 }
 
+#if DEBUG
                 ///Add test data to the DB
                 using (IDbConnection connection = new SQLiteConnection(LoadConnectionString()))
                 {
@@ -53,6 +54,7 @@ namespace ContactsManager.Services
                         connection.Execute(sql, contact);
                     }
                 }
+#endif
             }
         }
 
